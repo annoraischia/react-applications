@@ -1,25 +1,52 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import { render } from '@testing-library/react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+ constructor(props){
+   super(props)
+   this.state = {
+      newItem:"",
+      list:[]
+   }
+ }
+ updateInput(input){
+   this.setState({
+     newItem: input
+   });
+ }
+ addItem(input){
+   let listArray = this.state.list;
+   listArray.push(input);
+   this.setState({
+     list: listArray,
+     newItem: ""
+   })
+ }
+ render() {
+   return (
+     <div className="App">
+       <div>
+         <h3>Today's To-Do</h3>
+         <br/>
+         <input
+          type="text"
+          placeholder="Task here"
+          value={this.state.newItem}
+          onChange={(e)=> this.updateInput(e.target.value)}
+         />
+         <button
+           onClick={() => this.addItem(this.state.newItem)}
+          >
+          Add
+         </button>
+         <ul>
+           {this.state.list.map( (val)=> <li>{val}</li>)}
+         </ul>
+       </div>
+     </div>
+   );
+ }
 }
 
 export default App;
